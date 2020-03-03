@@ -1,9 +1,12 @@
 <template>
   <div class="headerStyle">
-    <header>
-        <h1>{{ msg }}</h1>
-    </header>
-    
+    <nav>
+      <h1>{{ msg }}</h1>
+      <ul>
+        <li><router-link to="/" exact>Grocery List</router-link></li>
+        <li><router-link to="/add" exact>Add Item</router-link></li>
+      </ul>
+    </nav>
   </div>
 </template>
 
@@ -15,23 +18,11 @@ export default {
         msg: 'Grocery List'
         }
   },
-  //Lifecycle methods
-  beforeCreate: function() {
-     console.log("beforeCreate()")
-     //alert("before create")
-  },
-  created: function() {
-    console.log("created()")
-    //alert("created")
-  },
-  beforeMount: function() {
-    console.log("beforeMount()");
-
-  },
-  mounted: function() {
-    setTimeout(function(){console.log("mounted()")}, 3000);
+  props:{
+    title:{
+      type:String
+    }
   }
-  
 }
 </script>
 
@@ -39,12 +30,39 @@ export default {
 <style scoped>
 header{
     background:rgb(122, 63, 100);
-    padding:10px;
+    padding:6px;
     border-style: solid;
     border-color:black;
     border-width: 2px;
 }
 h1{
-    color:ivory
+    color:ivory;
+    background: rgb(122, 63, 100);
+    font-size: 30px;
+}
+nav{
+    background: rgb(122, 63, 100);
+    padding: 14px 0;
+    margin-bottom: 40px;
+}
+.router-link-active{
+    background: ivory;
+    color: #444;
+}
+ul{
+    list-style-type: none;
+    text-align: left;
+    margin: 0;
+}
+li{
+    
+    display: inline-block;
+    margin: 0 10px;
+}
+li a{
+  
+  font-size: 18px;
+  color:ivory;
+    
 }
 </style>
