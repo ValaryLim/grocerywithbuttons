@@ -3,10 +3,10 @@
     <h1>Add Item Page</h1>
     <form id="fm1">
         <label>Item Name</label>
-        <input type="text"/>
+        <input type="text" v-model="itemName"/>
         <label>Item Category</label>
         <input type="text"/>
-        
+        <button v-on:click="addItem">Add</button>
     </form>
   </div>
 </template>
@@ -14,11 +14,24 @@
 <script>
 
 export default {
-  
   data(){
     return{       
-        msg:"Add Item"
-        }
+        msg:"Add Item",
+        itemName: "",
+    }
+  },
+  props: {
+    itemsListInput: {
+      type: Array
+    },
+    itemsListSecond: {
+      type: Array
+    }
+  },
+  methods: {
+    addItem: function() {
+      this.itemsListSecond.push({name: this.itemName, image: '', show: false});
+    }
   }
 }
 </script>
