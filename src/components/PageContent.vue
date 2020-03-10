@@ -1,20 +1,12 @@
 <template>
   <div>
-    <h1 class="subheader">Main List</h1>
+    <h1 class="subheader">Items List</h1>
     <ul>
-        <li v-for="item in itemsListInput" v-bind:key="item.name" >
+        <li v-for="(item , index) in itemsList" v-bind:key="item.id" >
             <h2 v-on:click="item.show = !item.show">{{item.name}}</h2>
             <img v-bind:src="item.image" v-show="item.show"/>
             <buttonComponent></buttonComponent>
-        </li>
-    </ul>
-
-    <h1 class="subheader">Secondary List</h1>
-    <ul>
-        <li v-for="item in itemsListSecond" v-bind:key="item.name" >
-            <h2 v-on:click="item.show = !item.show">{{item.name}}</h2>
-            <img v-bind:src="item.image" v-show="item.show"/>
-            <buttonComponent></buttonComponent>
+            <button name="delete" v-bind:id="item.id" v-on:click="deleteItem(index,item)">Delete</button>
         </li>
     </ul>
   </div>
@@ -22,7 +14,9 @@
 
 
 <script>
-import ButtonComponent from './ButtonComponent.vue'
+import ButtonComponent from './ButtonComponent.vue';
+import database from '../firebase.js';
+
 export default {
   props: {
     itemsListInput: {
@@ -32,11 +26,39 @@ export default {
       type: Array
     }
   },
-  data(){
-    return{ }
+  data() {
+    return { 
+      itemsList: []
+    }
   },
   components:{
     'buttonComponent':ButtonComponent
+  },
+  methods: {
+    fetchItems: function() {
+      let item = {}
+      database.collection('items').get().then((querySnapShot) => {
+        querySnapShot.forEach(doc => {
+          item = doc.data();
+          item.show = false;
+          item.id = doc.id
+          this.itemsList.push(item);
+        })
+      })
+    },
+    deleteItem: function(index, item) {
+      // deleting from database
+      database.collection('items').doc(item.id).delete();
+
+      // deleting from the itemsList array
+      this.itemsList.splice(index, 1);
+
+      // message to be displayed
+      alert("item deleted successfully");
+    }
+  },
+  created() {
+    this.fetchItems();
   }
 }
 </script>
