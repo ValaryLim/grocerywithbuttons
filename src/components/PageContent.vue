@@ -4,9 +4,13 @@
     <ul>
         <li v-for="(item , index) in itemsList" v-bind:key="item.id" >
             <h2 v-on:click="item.show = !item.show">{{item.name}}</h2>
+            <p>{{ item.date }}</p>
+            <p>{{ item.urgent }}</p> 
+            <p>Categories: {{ item.category }}</p>
+            <p>Notes: {{ item.notes }}</p>
             <img v-bind:src="item.image" v-show="item.show"/>
             <buttonComponent></buttonComponent>
-            <button name="delete" v-bind:id="item.id" v-on:click="deleteItem(index,item)">Delete</button>
+            <button name="delete" class="delete-item-btn" v-bind:id="item.id" v-on:click="deleteItem(index,item)">Delete</button>
         </li>
     </ul>
   </div>
@@ -19,12 +23,6 @@ import database from '../firebase.js';
 
 export default {
   props: {
-    itemsListInput: {
-      type: Array
-    },
-    itemsListSecond: {
-      type: Array
-    }
   },
   data() {
     return { 
@@ -40,8 +38,9 @@ export default {
       database.collection('items').get().then((querySnapShot) => {
         querySnapShot.forEach(doc => {
           item = doc.data();
+          console.log(item, "item");
           item.show = false;
-          item.id = doc.id
+          item.id = doc.id;
           this.itemsList.push(item);
         })
       })
@@ -67,6 +66,7 @@ export default {
 <style scoped>
 .subheader {
   color: black;
+  text-align: center;
 }
 
 header{
@@ -106,5 +106,12 @@ li{
 img{
   width:100px;
   height:100px;
+}
+
+.delete-item-btn {
+  padding: 10px;
+  margin: 10px;
+  border-radius: 4px;
+  font-size: 12px;
 }
 </style>
