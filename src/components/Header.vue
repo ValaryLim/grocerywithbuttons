@@ -3,8 +3,9 @@
     <nav>
       <h1>{{ msg }}</h1>
       <ul>
-        <li><router-link to="/" exact>Grocery List</router-link></li>
+        <li><router-link to="/" exact>Home</router-link></li>
         <li><router-link to="/add" exact>Add Item</router-link></li>
+        <li><router-link to="/list" exact>List</router-link></li>
       </ul>
     </nav>
   </div>
@@ -34,16 +35,20 @@ header{
     border-style: solid;
     border-color:black;
     border-width: 2px;
+    text-align: center;
+    align-content: center;
 }
 h1{
     color:ivory;
     background: rgb(122, 63, 100);
     font-size: 30px;
+    text-align: center;
 }
 nav{
     background: rgb(122, 63, 100);
     padding: 14px 0;
     margin-bottom: 40px;
+    text-align: center;
 }
 .router-link-active{
     background: ivory;
@@ -55,7 +60,6 @@ ul{
     margin: 0;
 }
 li{
-    
     display: inline-block;
     margin: 0 10px;
 }
